@@ -1,9 +1,10 @@
 import sys
+
 from PySide6.QtWidgets import QApplication
 from qt_material import apply_stylesheet
 
-from ui.main_window import MainWindow
-from ui.splash_screen import show_splash
+from app.ui.main_window import MainWindow
+from app.ui.splash_screen import show_splash
 
 
 def main():
