@@ -1,6 +1,13 @@
 import plotly.express as px
-from PySide6.QtWidgets import QWidget, QVBoxLayout
-from PySide6.QtWebEngineWidgets import QWebEngineView
+
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout
+)
+
+from PySide6.QtWebEngineWidgets import (
+    QWebEngineView
+)
 
 
 class Dashboard(QWidget):
@@ -8,9 +15,20 @@ class Dashboard(QWidget):
     def __init__(self, result):
         super().__init__()
 
+        self.setWindowTitle(
+            'Dashboard Comparativo'
+        )
+
+        self.resize(1200, 800)
+
         layout = QVBoxLayout()
 
-        labels = ['Novos', 'Removidos', 'Alterados']
+        labels = [
+            'Novos',
+            'Removidos',
+            'Alterados'
+        ]
+
         values = [
             len(result['added']),
             len(result['removed']),
@@ -24,7 +42,12 @@ class Dashboard(QWidget):
         )
 
         graph = QWebEngineView()
-        graph.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+        graph.setHtml(
+            fig.to_html(
+                include_plotlyjs='cdn'
+            )
+        )
 
         layout.addWidget(graph)
 
