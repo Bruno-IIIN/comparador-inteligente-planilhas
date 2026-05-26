@@ -4,10 +4,15 @@ from PySide6.QtCore import Qt
 
 
 def show_splash(app):
-    pixmap = QPixmap('assets/splash.png')
+
+    pixmap = QPixmap(600, 300)
 
     splash = QSplashScreen(pixmap)
-    splash.setWindowFlag(Qt.WindowStaysOnTopHint)
+
+    splash.setWindowFlag(
+        Qt.WindowStaysOnTopHint
+    )
+
     splash.show()
 
     app.processEvents()
