@@ -1,26 +1,22 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 from pathlib import Path
+from PyInstaller.utils.hooks import collect_submodules
 
 project_path = Path.cwd()
 
-block_cipher = None
+hidden_imports = collect_submodules("plotly")
 
 a = Analysis(
     [str(project_path / "app" / "main.py")],
     pathex=[str(project_path)],
     binaries=[],
-    datas=[
-        (
-            str(project_path / "app" / "assets"),
-            "assets"
-        )
-    ],
-    hiddenimports=[
+    datas=[],
+    hiddenimports=hidden_imports + [
         "PySide6.QtWebEngineWidgets",
-        "plotly",
         "pandas",
-        "openpyxl"
+        "openpyxl",
+        "qt_material"
     ],
     hookspath=[],
     hooksconfig={},
@@ -42,15 +38,5 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
-    icon=str(
-        project_path / "app" / "assets" / "icon.ico"
-    ),
+    console=False
 )
