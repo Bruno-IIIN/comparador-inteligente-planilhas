@@ -8,3 +8,4 @@ PyInstaller>=6.20.0
 qt-material>=2.14
 numpy>=1.26.4
 xlsxwriter>=3.2.0
+PySide6-WebEngine>=6.7.0
