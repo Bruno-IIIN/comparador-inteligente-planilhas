@@ -1,9 +1,64 @@
+from PySide6.QtCore import Qt
+
 from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QPushButton,
+    QLabel,
+    QFileDialog,
+    QMessageBox,
+    QHBoxLayout,
+    QApplication
+)
+
+from app.core.excel_reader import ExcelReader
+from app.core.comparator import SpreadsheetComparator
+from app.ui.dashboard import Dashboard
+
+
+class MainWindow(QWidget):
+
+    def __init__(self):
+        super().__init__()
+
+        self.old_file = None
+        self.new_file = None
+
+        self.setup_ui()
+
+    def setup_ui(self):
+        self.setWindowTitle(
+            'Comparador Inteligente de Planilhas'
+        )
+
+        self.resize(1200, 800)
+
+        layout = QVBoxLayout()
+
+        title = QLabel(
+            'Comparador Inteligente de Planilhas'
+        )
+
+        title.setStyleSheet(
+            '''
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px;
+            '''
+        )
+
+        layout.addWidget(title)
 
         buttons_layout = QHBoxLayout()
 
-        self.old_btn = QPushButton('Selecionar Planilha Anterior')
-        self.new_btn = QPushButton('Selecionar Planilha Atual')
+        self.old_btn = QPushButton(
+            'Selecionar Planilha Anterior'
+        )
+
+        self.new_btn = QPushButton(
+            'Selecionar Planilha Atual'
+        )
+
         self.compare_btn = QPushButton('Comparar')
 
         self.old_btn.clicked.connect(self.load_old)
@@ -16,7 +71,10 @@ from PySide6.QtWidgets import (
 
         layout.addLayout(buttons_layout)
 
-        self.status = QLabel('Nenhum arquivo carregado')
+        self.status = QLabel(
+            'Nenhum arquivo carregado'
+        )
+
         layout.addWidget(self.status)
 
         self.setLayout(layout)
@@ -31,7 +89,10 @@ from PySide6.QtWidgets import (
 
         if path:
             self.old_file = path
-            self.status.setText(f'Anterior: {path}')
+
+            self.status.setText(
+                f'Anterior: {path}'
+            )
 
     def load_new(self):
         path, _ = QFileDialog.getOpenFileName(
@@ -43,7 +104,10 @@ from PySide6.QtWidgets import (
 
         if path:
             self.new_file = path
-            self.status.setText(f'Atual: {path}')
+
+            self.status.setText(
+                f'Atual: {path}'
+            )
 
     def compare(self):
         if not self.old_file or not self.new_file:
@@ -54,11 +118,18 @@ from PySide6.QtWidgets import (
             )
             return
 
-        QApplication.setOverrideCursor(Qt.WaitCursor)
+        QApplication.setOverrideCursor(
+            Qt.WaitCursor
+        )
 
         try:
-            old_df = ExcelReader.load_excel(self.old_file)
-            new_df = ExcelReader.load_excel(self.new_file)
+            old_df = ExcelReader.load_excel(
+                self.old_file
+            )
+
+            new_df = ExcelReader.load_excel(
+                self.new_file
+            )
 
             key_column = old_df.columns[0]
 
