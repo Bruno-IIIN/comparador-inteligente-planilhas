@@ -1,40 +1,56 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from pathlib import Path
+
+project_path = Path.cwd()
+
 block_cipher = None
 
-
 a = Analysis(
-    ['app/main.py'],
-    pathex=[],
+    [str(project_path / "app" / "main.py")],
+    pathex=[str(project_path)],
     binaries=[],
     datas=[
-        ('app/assets', 'assets')
+        (
+            str(project_path / "app" / "assets"),
+            "assets"
+        )
     ],
-    hiddenimports=[],
+    hiddenimports=[
+        "PySide6.QtWebEngineWidgets",
+        "plotly",
+        "pandas",
+        "openpyxl"
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
 )
 
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
-    a.zipfiles,
     a.datas,
     [],
-    name='ComparadorInteligente',
+    name="ComparadorInteligente",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
     console=False,
-    icon='app/assets/icon.ico'
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    icon=str(
+        project_path / "app" / "assets" / "icon.ico"
+    ),
 )
